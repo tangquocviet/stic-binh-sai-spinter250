@@ -1,0 +1,563 @@
+{
+  "project": {
+    "name": "CẦU CỬA ĐẠI",
+    "date": "2025-07-11",
+    "surveyor": "",
+    "computer": "",
+    "checker": ""
+  },
+  "settings": {
+    "adjustment_method": "indirect",
+    "closure_formula": "k_sqrt_n",
+    "k_coefficient_mm": 0.3,
+    "weight_basis": "station_count"
+  },
+  "known_points": [
+    {
+      "name": "MC2",
+      "height_m": 0.7614
+    },
+    {
+      "name": "MC6",
+      "height_m": 1.7587
+    }
+  ],
+  "observations": [
+    {
+      "id": 1,
+      "from": "MC2",
+      "to": "MC6",
+      "measured_dh_m": 0.9973,
+      "stations": 61,
+      "distance_km": null
+    },
+    {
+      "id": 2,
+      "from": "MC6",
+      "to": "MC2",
+      "measured_dh_m": -0.9975,
+      "stations": 59,
+      "distance_km": null
+    },
+    {
+      "id": 3,
+      "from": "MC2",
+      "to": "T2B",
+      "measured_dh_m": 0.1738,
+      "stations": 3,
+      "distance_km": null
+    },
+    {
+      "id": 4,
+      "from": "T2B",
+      "to": "T2A",
+      "measured_dh_m": 0.9715,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 5,
+      "from": "T2B",
+      "to": "T1A",
+      "measured_dh_m": 0.3116,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 6,
+      "from": "T1A",
+      "to": "T1B",
+      "measured_dh_m": 0.2805,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 7,
+      "from": "T1B",
+      "to": "MC2",
+      "measured_dh_m": -0.766,
+      "stations": 4,
+      "distance_km": null
+    },
+    {
+      "id": 8,
+      "from": "MC2",
+      "to": "T3B",
+      "measured_dh_m": 0.665,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 9,
+      "from": "T3B",
+      "to": "T3A",
+      "measured_dh_m": 0.0138,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 10,
+      "from": "T3A",
+      "to": "T4B",
+      "measured_dh_m": -0.135,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 11,
+      "from": "T4B",
+      "to": "T4A",
+      "measured_dh_m": 0.0295,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 12,
+      "from": "T4A",
+      "to": "MC2",
+      "measured_dh_m": -0.573,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 13,
+      "from": "MC2",
+      "to": "7",
+      "measured_dh_m": -0.1316,
+      "stations": 7,
+      "distance_km": null
+    },
+    {
+      "id": 14,
+      "from": "7",
+      "to": "T8HL",
+      "measured_dh_m": -0.2305,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 15,
+      "from": "7",
+      "to": "T8TL",
+      "measured_dh_m": -0.461,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 16,
+      "from": "7",
+      "to": "T7TL",
+      "measured_dh_m": -0.0362,
+      "stations": 4,
+      "distance_km": null
+    },
+    {
+      "id": 17,
+      "from": "T7TL",
+      "to": "T7HL",
+      "measured_dh_m": 0.0556,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 18,
+      "from": "T7HL",
+      "to": "T6HL",
+      "measured_dh_m": -0.0388,
+      "stations": 4,
+      "distance_km": null
+    },
+    {
+      "id": 19,
+      "from": "T6HL",
+      "to": "T6TL",
+      "measured_dh_m": -0.058,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 20,
+      "from": "T6TL",
+      "to": "T5HL",
+      "measured_dh_m": 0.217,
+      "stations": 4,
+      "distance_km": null
+    },
+    {
+      "id": 21,
+      "from": "T5HL",
+      "to": "T5TL",
+      "measured_dh_m": 0.0592,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 22,
+      "from": "T5TL",
+      "to": "MC2",
+      "measured_dh_m": -0.0673,
+      "stations": 4,
+      "distance_km": null
+    },
+    {
+      "id": 23,
+      "from": "T8HL",
+      "to": "T9HL",
+      "measured_dh_m": -0.0589,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 24,
+      "from": "T9HL",
+      "to": "T9TL",
+      "measured_dh_m": -0.123,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 25,
+      "from": "T9TL",
+      "to": "T10HL",
+      "measured_dh_m": 0.526,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 26,
+      "from": "T10HL",
+      "to": "T10TL",
+      "measured_dh_m": 0.0434,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 27,
+      "from": "T10HL",
+      "to": "T11HL",
+      "measured_dh_m": 0.0383,
+      "stations": 3,
+      "distance_km": null
+    },
+    {
+      "id": 28,
+      "from": "T11HL",
+      "to": "T11TL",
+      "measured_dh_m": 0.0194,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 29,
+      "from": "T11TL",
+      "to": "T12HL",
+      "measured_dh_m": 0.0714,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 30,
+      "from": "T11TL",
+      "to": "T12TL",
+      "measured_dh_m": 0.0417,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 31,
+      "from": "T11TL",
+      "to": "T8HL",
+      "measured_dh_m": -0.4015,
+      "stations": 5,
+      "distance_km": null
+    },
+    {
+      "id": 32,
+      "from": "MC6",
+      "to": "M24TL",
+      "measured_dh_m": 0.4423,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 33,
+      "from": "M24TL",
+      "to": "M24HL",
+      "measured_dh_m": 0.4052,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 34,
+      "from": "M24HL",
+      "to": "MC6",
+      "measured_dh_m": -0.8481,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 35,
+      "from": "MC6",
+      "to": "T23HL",
+      "measured_dh_m": -0.2845,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 36,
+      "from": "T23HL",
+      "to": "T23TL",
+      "measured_dh_m": -0.0059,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 37,
+      "from": "T23TL",
+      "to": "T22TL",
+      "measured_dh_m": -0.1052,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 38,
+      "from": "T22TL",
+      "to": "T22HL",
+      "measured_dh_m": 0.1051,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 39,
+      "from": "T22HL",
+      "to": "MC6",
+      "measured_dh_m": 0.2906,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 40,
+      "from": "T22HL",
+      "to": "T21HL",
+      "measured_dh_m": -0.0515,
+      "stations": 3,
+      "distance_km": null
+    },
+    {
+      "id": 41,
+      "from": "T21HL",
+      "to": "T21TL",
+      "measured_dh_m": 0.0192,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 42,
+      "from": "T21TL",
+      "to": "T20HL",
+      "measured_dh_m": 0.4042,
+      "stations": 3,
+      "distance_km": null
+    },
+    {
+      "id": 43,
+      "from": "T20HL",
+      "to": "T20TL",
+      "measured_dh_m": -0.1681,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 44,
+      "from": "T20TL",
+      "to": "T19TL",
+      "measured_dh_m": -0.07,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 45,
+      "from": "T19TL",
+      "to": "T19HL",
+      "measured_dh_m": 0.0801,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 46,
+      "from": "T19HL",
+      "to": "T18HL",
+      "measured_dh_m": 0.3072,
+      "stations": 3,
+      "distance_km": null
+    },
+    {
+      "id": 47,
+      "from": "T18HL",
+      "to": "T18TL",
+      "measured_dh_m": -0.1814,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 48,
+      "from": "T18TL",
+      "to": "T22HL",
+      "measured_dh_m": -0.3401,
+      "stations": 7,
+      "distance_km": null
+    },
+    {
+      "id": 49,
+      "from": "T18HL",
+      "to": "1",
+      "measured_dh_m": -0.4576,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 50,
+      "from": "1",
+      "to": "T17TL",
+      "measured_dh_m": -1.1613,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 51,
+      "from": "T17TL",
+      "to": "T17HL",
+      "measured_dh_m": -0.0648,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 52,
+      "from": "T17HL",
+      "to": "T18HL",
+      "measured_dh_m": 1.684,
+      "stations": 2,
+      "distance_km": null
+    },
+    {
+      "id": 53,
+      "from": "T17HL",
+      "to": "T16.2B",
+      "measured_dh_m": 0.2284,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 54,
+      "from": "T16.2B",
+      "to": "T17HL",
+      "measured_dh_m": -0.2286,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 55,
+      "from": "T16.2B",
+      "to": "T15TL(1)",
+      "measured_dh_m": 0.1163,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 56,
+      "from": "T15TL(1)",
+      "to": "T15HL(1)",
+      "measured_dh_m": 0.0028,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 57,
+      "from": "T15HL(1)",
+      "to": "T15HL(2)",
+      "measured_dh_m": -0.0836,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 58,
+      "from": "T15HL(2)",
+      "to": "T15TL(2)",
+      "measured_dh_m": 0.0593,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 59,
+      "from": "T15TL(2)",
+      "to": "T16.2B",
+      "measured_dh_m": -0.095,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 60,
+      "from": "T15TL(2)",
+      "to": "T14TL(1)",
+      "measured_dh_m": 0.2678,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 61,
+      "from": "T14TL(1)",
+      "to": "T14HL(1)",
+      "measured_dh_m": 0.005,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 62,
+      "from": "T14HL(1)",
+      "to": "T14HL(2)",
+      "measured_dh_m": -0.002,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 63,
+      "from": "T14HL(2)",
+      "to": "T14TL(2)",
+      "measured_dh_m": -0.03,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 64,
+      "from": "T14TL(2)",
+      "to": "T15TL(2)",
+      "measured_dh_m": -0.2408,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 65,
+      "from": "T14TL(2)",
+      "to": "T13TL",
+      "measured_dh_m": -0.01,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 66,
+      "from": "T13TL",
+      "to": "T13HL",
+      "measured_dh_m": -0.005,
+      "stations": 1,
+      "distance_km": null
+    },
+    {
+      "id": 67,
+      "from": "T13HL",
+      "to": "T14TL(2)",
+      "measured_dh_m": 0.0154,
+      "stations": 1,
+      "distance_km": null
+    }
+  ]
+}
