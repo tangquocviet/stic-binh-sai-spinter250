@@ -259,7 +259,14 @@ Dùng chính bộ dữ liệu "Cầu Cửa Đại lần 3" đã kiểm chứng t
 | TC-50 | Dữ liệu tồn tại sau khi tắt/mở lại app nhiều lần | Dữ liệu IndexedDB còn nguyên trên cả Android và iOS |
 | TC-51 | Nhắc backup định kỳ | App hiển thị nhắc xuất file sau khi đóng 1 tuyến đo hoặc theo lịch đã cấu hình |
 
-> **Chưa triển khai** (Phase 7) — dự án PWA riêng biệt, xem mục 11.
+> **Trạng thái thực tế:** code đã hoàn thành trong `mobile-app/` (cùng
+> repo này, không phải repo riêng như đề xuất ban đầu — do phiên code
+> không có quyền tạo repo GitHub mới). TC-40 → TC-46 verify được bằng
+> Chromium headless (Playwright): tạo dự án/điểm gốc/tuyến/trạm đo, tính
+> Δh real-time, cảnh báo Wh/Wh(gh) tại chỗ, xuất JSON đúng schema, dữ liệu
+> IndexedDB còn nguyên sau reload. TC-47 → TC-51 (cài đặt & hành vi trên
+> thiết bị Android/iOS thật, kể cả cơ chế ITP của Safari) **chưa kiểm thử
+> được** — cần thiết bị thật. Xem `mobile-app/README.md`.
 
 ---
 

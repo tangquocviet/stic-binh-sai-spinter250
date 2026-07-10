@@ -63,9 +63,13 @@ binh_sai_do_cao/
       GSI-8/GSI-16 hoặc Excel xuất thật từ máy Sprinter 250M/Sprinter
       DataLoader làm dữ liệu mẫu trước khi viết `io/gsi_parser.py` (SPEC.md
       mục 10, TODO Phase 6) — hiện chưa có file mẫu.
-- [ ] Phase 7 — Mobile Field App (PWA): **chưa triển khai**. Xem SPEC.md
-      mục 11 — cần thiết lập GitHub Pages riêng và kiểm thử trên thiết bị
-      Android/iOS thật.
+- [x] Phase 7 — Mobile Field App (PWA): **code-complete**, xem
+      [`mobile-app/README.md`](mobile-app/README.md). Đã test bằng
+      Chromium headless (Playwright) — luồng tạo dự án/điểm gốc/tuyến
+      đo/nhập trạm/cảnh báo sai số khép/xuất JSON/offline reload đều
+      pass, không lỗi console. **Chưa test trên thiết bị Android/iOS
+      thật** (TC-47 → TC-51) và **chưa bật GitHub Pages** (thao tác thủ
+      công trên GitHub, ngoài phạm vi quyền của phiên code này).
 
 ## Kiểm thử
 
@@ -92,4 +96,6 @@ python3 -m pytest binh_sai_do_cao/tests/ -v
 1. File `.docx` mẫu có placeholder thật (để chuyển sang `docxtpl`, giữ
    đúng style/font gốc thay vì layout mặc định của `python-docx`).
 2. File GSI/Excel mẫu thật từ Sprinter 250M cho Phase 6.
-3. PWA mobile field app (Phase 7) — xem SPEC.md mục 11.
+3. PWA mobile field app (Phase 7) — code xong, còn thiếu: bật GitHub
+   Pages, test trên thiết bị Android/iOS thật, thay icon placeholder bằng
+   icon thật. Xem [`mobile-app/README.md`](mobile-app/README.md).

@@ -1,0 +1,26 @@
+<meta charset="UTF-8" />
+<title>Sổ đo điện tử — Bình sai độ cao</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#15655c" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Sổ đo điện tử" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+<link rel="icon" href="./icons/icon-192.png" />
+<link rel="stylesheet" href="./css/style.css" />
+
+<div id="app"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script type="module" src="./js/app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js").catch((err) => {
+        console.error("Đăng ký Service Worker thất bại:", err);
+      });
+    });
+  }
+</script>

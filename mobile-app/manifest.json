@@ -1,0 +1,16 @@
+{
+  "name": "Sổ đo điện tử — Bình sai độ cao",
+  "short_name": "Sổ đo độ cao",
+  "description": "Nhập số đọc mia BS/IS/FS ngoài công trường, tính chênh cao và cảnh báo sai số khép ngay tại chỗ.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1615",
+  "theme_color": "#15655c",
+  "lang": "vi",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
