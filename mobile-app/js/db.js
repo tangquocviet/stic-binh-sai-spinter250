@@ -193,6 +193,10 @@ export async function listStations(lineId) {
   return rows.sort((a, b) => a.orderIndex - b.orderIndex);
 }
 
+export async function getStation(id) {
+  return get("stations", id);
+}
+
 export async function updateStation(id, patch) {
   const st = await get("stations", id);
   if (!st) throw new Error("Không tìm thấy trạm id=" + id);

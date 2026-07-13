@@ -215,6 +215,7 @@ async function renderProjectDetail(projectId) {
 // ---------------- Màn 3+4: Nhập trạm đo + Tổng hợp tuyến ----------------
 
 let isRows = []; // trạng thái tạm của các dòng điểm ngắm giữa đang nhập
+let editingStationId = null; // id trạm đang sửa, null nếu đang nhập trạm mới
 
 async function renderLineDetail(lineId) {
   const line = await db.getLine(lineId);
@@ -223,19 +224,40 @@ async function renderLineDetail(lineId) {
     return;
   }
   const summary = await db.lineSummary(lineId);
-  const runningHeightBefore = summary.totalDhM; // độ cao tương đối tích luỹ tới trước trạm sắp nhập
-  isRows = [];
+
+  let editingStation = null;
+  if (editingStationId != null) {
+    editingStation = summary.stations.find((s) => s.id === editingStationId) || null;
+    if (!editingStation) editingStationId = null; // đã bị xoá ở nơi khác
+  }
+
+  // Độ cao tương đối tích luỹ ngay trước trạm đang thao tác (để tính live-preview)
+  let runningHeightBefore;
+  if (editingStation) {
+    runningHeightBefore = summary.stations
+      .filter((s) => s.orderIndex < editingStation.orderIndex)
+      .reduce((sum, s) => sum + db.stationDhM(s), 0);
+    isRows = editingStation.isList.map((r) => ({ point: r.point, readingM: String(r.readingM) }));
+  } else {
+    runningHeightBefore = summary.totalDhM;
+    isRows = [];
+  }
+
+  const formTitle = editingStation
+    ? `Sửa trạm đo #${editingStation.orderIndex}`
+    : `Nhập trạm đo #${summary.totalStations + 1}`;
+  const saveLabel = editingStation ? "Cập nhật trạm đo" : "Lưu trạm đo";
 
   app.innerHTML = `
     ${topbar(line.name, `/project/${line.projectId}`)}
 
-    <div class="card">
-      <div class="section-title">Nhập trạm đo #${summary.totalStations + 1}</div>
+    <div class="card" id="stationFormCard">
+      <div class="section-title">${formTitle}</div>
 
       <label>Điểm ngắm sau (BS)</label>
       <div class="row">
-        <input type="text" id="bsPoint" placeholder="Tên điểm" />
-        <input type="number" inputmode="decimal" step="0.0001" id="bsReading" placeholder="Số đọc (m)" />
+        <input type="text" id="bsPoint" placeholder="Tên điểm" value="${editingStation ? esc(editingStation.bsPoint) : ""}" />
+        <input type="number" inputmode="decimal" step="0.0001" id="bsReading" placeholder="Số đọc (m)" value="${editingStation ? editingStation.bsReadingM : ""}" />
       </div>
 
       <div id="isRowsContainer"></div>
@@ -243,16 +265,19 @@ async function renderLineDetail(lineId) {
 
       <label>Điểm ngắm trước (FS)</label>
       <div class="row">
-        <input type="text" id="fsPoint" placeholder="Tên điểm" />
-        <input type="number" inputmode="decimal" step="0.0001" id="fsReading" placeholder="Số đọc (m)" />
+        <input type="text" id="fsPoint" placeholder="Tên điểm" value="${editingStation ? esc(editingStation.fsPoint) : ""}" />
+        <input type="number" inputmode="decimal" step="0.0001" id="fsReading" placeholder="Số đọc (m)" value="${editingStation ? editingStation.fsReadingM : ""}" />
       </div>
 
       <label>Ghi chú (tuỳ chọn)</label>
-      <input type="text" id="note" placeholder="Thời tiết, sự cố..." />
+      <input type="text" id="note" placeholder="Thời tiết, sự cố..." value="${editingStation ? esc(editingStation.note) : ""}" />
 
       <div class="live-preview" id="livePreview">— <span class="unit">chênh cao trạm (m)</span></div>
 
-      <button class="btn btn-primary btn-block" id="saveStationBtn">Lưu trạm đo</button>
+      <div class="row">
+        <button class="btn btn-primary btn-block" id="saveStationBtn">${saveLabel}</button>
+        ${editingStation ? `<button class="btn btn-secondary" id="cancelEditBtn" type="button" style="flex:0 0 auto">Huỷ</button>` : ""}
+      </div>
     </div>
 
     <div class="card">
@@ -274,11 +299,19 @@ async function renderLineDetail(lineId) {
             ? summary.stations
                 .map((s) => {
                   const dh = db.stationDhM(s);
-                  return `<div class="station-row">
-                    <span>#${s.orderIndex} ${esc(s.bsPoint)} → ${esc(s.fsPoint)}${s.isList.length ? ` (+${s.isList.length} IS)` : ""}</span>
-                    <span class="dh">${fmtMm(dh * 1000)}mm
-                      <button class="btn btn-danger" style="padding:4px 8px;margin-left:8px" data-action="delete-station" data-id="${s.id}">×</button>
-                    </span>
+                  const isNote = s.isList.length
+                    ? ` · +${s.isList.length} IS (${s.isList.map((r) => `${esc(r.point)}=${fmt4(r.readingM)}`).join(", ")})`
+                    : "";
+                  return `<div class="station-row" style="flex-direction:column;align-items:stretch;gap:4px">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                      <span><strong>#${s.orderIndex}</strong> ${esc(s.bsPoint)} → ${esc(s.fsPoint)}</span>
+                      <span class="dh">${fmtMm(dh * 1000)}mm</span>
+                    </div>
+                    <div class="meta">BS ${esc(s.bsPoint)} = ${fmt4(s.bsReadingM)}m &nbsp;·&nbsp; FS ${esc(s.fsPoint)} = ${fmt4(s.fsReadingM)}m${isNote}</div>
+                    <div class="row" style="margin-top:4px">
+                      <button class="btn btn-secondary" style="padding:8px" data-action="edit-station" data-id="${s.id}">✎ Sửa</button>
+                      <button class="btn btn-danger" style="padding:8px" data-action="delete-station" data-id="${s.id}">Xoá</button>
+                    </div>
                   </div>`;
                 })
                 .join("")
@@ -291,6 +324,7 @@ async function renderLineDetail(lineId) {
   renderClosureBox(summary);
   renderIsRows();
   wireLiveInputs(runningHeightBefore);
+  updateLivePreview(runningHeightBefore); // hiện sẵn giá trị khi đang sửa trạm có sẵn số liệu
 
   document.getElementById("addIsBtn").addEventListener("click", () => {
     isRows.push({ point: "", readingM: "" });
@@ -302,10 +336,30 @@ async function renderLineDetail(lineId) {
     saveStation(lineId, runningHeightBefore)
   );
 
+  const cancelBtn = document.getElementById("cancelEditBtn");
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      editingStationId = null;
+      renderLineDetail(lineId);
+    });
+  }
+
   app.querySelectorAll('[data-action="delete-station"]').forEach((btn) =>
     btn.addEventListener("click", async () => {
-      await db.deleteStation(Number(btn.dataset.id));
+      if (!confirm("Xoá trạm đo này?")) return;
+      const id = Number(btn.dataset.id);
+      if (editingStationId === id) editingStationId = null;
+      await db.deleteStation(id);
       renderLineDetail(lineId);
+    })
+  );
+
+  app.querySelectorAll('[data-action="edit-station"]').forEach((btn) =>
+    btn.addEventListener("click", () => {
+      editingStationId = Number(btn.dataset.id);
+      renderLineDetail(lineId).then(() => {
+        document.getElementById("stationFormCard").scrollIntoView({ behavior: "smooth" });
+      });
     })
   );
 }
@@ -440,16 +494,23 @@ async function saveStation(lineId, runningHeightBefore) {
     .filter((r) => r.point.trim() !== "" && r.readingM !== "")
     .map((r) => ({ point: r.point.trim(), readingM: Number(r.readingM) }));
 
-  await db.addStation(lineId, {
+  const payload = {
     bsPoint,
     bsReadingM: bsReading,
     fsPoint,
     fsReadingM: fsReading,
     isList: cleanIs,
     note,
-  });
+  };
 
-  toast("Đã lưu trạm đo.");
+  if (editingStationId != null) {
+    await db.updateStation(editingStationId, payload);
+    editingStationId = null;
+    toast("Đã cập nhật trạm đo.");
+  } else {
+    await db.addStation(lineId, payload);
+    toast("Đã lưu trạm đo.");
+  }
   renderLineDetail(lineId);
 }
 
