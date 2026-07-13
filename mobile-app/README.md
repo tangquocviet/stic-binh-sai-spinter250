@@ -46,7 +46,7 @@ rủi ro phụ thuộc CDN cho 1 app bắt buộc phải chạy offline 100%.
 - `projects` — dự án
 - `points` — điểm gốc (name, heightM) theo dự án
 - `lines` — tuyến đo (fromPoint, toPoint) theo dự án; tuyến khép kín khi `fromPoint === toPoint`
-- `stations` — trạm máy theo tuyến (bsPoint/bsReadingMm, fsPoint/fsReadingMm, isList[])
+- `stations` — trạm máy theo tuyến (bsPoint/bsReadingM, fsPoint/fsReadingM, isList[]) — số đọc mia nhập bằng **mét** (m)
 
 ## Luồng màn hình
 

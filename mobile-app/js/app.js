@@ -235,7 +235,7 @@ async function renderLineDetail(lineId) {
       <label>Điểm ngắm sau (BS)</label>
       <div class="row">
         <input type="text" id="bsPoint" placeholder="Tên điểm" />
-        <input type="number" inputmode="decimal" id="bsReading" placeholder="Số đọc (mm)" />
+        <input type="number" inputmode="decimal" step="0.0001" id="bsReading" placeholder="Số đọc (m)" />
       </div>
 
       <div id="isRowsContainer"></div>
@@ -244,7 +244,7 @@ async function renderLineDetail(lineId) {
       <label>Điểm ngắm trước (FS)</label>
       <div class="row">
         <input type="text" id="fsPoint" placeholder="Tên điểm" />
-        <input type="number" inputmode="decimal" id="fsReading" placeholder="Số đọc (mm)" />
+        <input type="number" inputmode="decimal" step="0.0001" id="fsReading" placeholder="Số đọc (m)" />
       </div>
 
       <label>Ghi chú (tuỳ chọn)</label>
@@ -263,6 +263,7 @@ async function renderLineDetail(lineId) {
         <tr><td>Tuyến khép kín?</td><td>${summary.closed ? "Có" : "Không"}</td></tr>
       </table>
       <div id="closureBox"></div>
+      ${whExplainHtml(summary)}
     </div>
 
     <div class="card">
@@ -292,7 +293,7 @@ async function renderLineDetail(lineId) {
   wireLiveInputs(runningHeightBefore);
 
   document.getElementById("addIsBtn").addEventListener("click", () => {
-    isRows.push({ point: "", readingMm: "" });
+    isRows.push({ point: "", readingM: "" });
     renderIsRows();
     wireLiveInputs(runningHeightBefore);
   });
@@ -307,6 +308,38 @@ async function renderLineDetail(lineId) {
       renderLineDetail(lineId);
     })
   );
+}
+
+const K_COEFFICIENT_MM = 0.3;
+
+function whExplainHtml(summary) {
+  const n = summary.totalStations;
+  const whGh = n > 0 ? K_COEFFICIENT_MM * Math.sqrt(n) : null;
+  const whActual = n > 0 ? (summary.totalDhM * 1000).toFixed(2) : null;
+
+  return `
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer;color:var(--text-dim)">ℹ️ Cách tính Wh và Wh(gh)</summary>
+      <div style="margin-top:8px;font-size:0.9rem;color:var(--text-dim);line-height:1.5">
+        <p><strong>Wh</strong> (sai số khép độ cao) — chỉ tính được khi tuyến <em>khép kín</em>
+        (điểm cuối trùng điểm đầu): cộng dồn có dấu chênh cao (Δh) của tất cả các trạm đi hết
+        vòng. Nếu đo hoàn hảo, đi hết vòng phải quay lại đúng độ cao ban đầu → Wh = 0.
+        Wh càng lớn nghĩa là sai số tích luỹ trong tuyến càng lớn.</p>
+        <p style="font-family:monospace">Wh = Σ Δh(mm) = Σ [BS(m) − FS(m)] × 1000</p>
+        <p><strong>Wh(gh)</strong> (sai số khép giới hạn cho phép) — ngưỡng để đánh giá Wh có
+        chấp nhận được không, phụ thuộc số trạm đo N: càng nhiều trạm, sai số ngẫu nhiên tích
+        luỹ càng lớn nên ngưỡng cho phép cũng tăng theo căn bậc hai của N.</p>
+        <p style="font-family:monospace">Wh(gh) = k × √N &nbsp; (k = ${K_COEFFICIENT_MM} mm, mặc định)</p>
+        <p><strong>Kết luận:</strong> |Wh| ≤ Wh(gh) → Đạt. |Wh|/Wh(gh) ≥ 0.9 → cảnh báo
+        "sát giới hạn" (nên đo lại nếu có thể). |Wh| &gt; Wh(gh) → Không đạt, phải đo lại.</p>
+        ${
+          n > 0
+            ? `<p><strong>Với tuyến này:</strong> N = ${n} trạm → Wh(gh) = ${K_COEFFICIENT_MM} × √${n} = ±${whGh.toFixed(2)} mm.
+               Wh thực đo = ${whActual} mm.</p>`
+            : `<p>Tuyến chưa có trạm nào — nhập trạm đo để xem ví dụ tính theo số liệu thực tế.</p>`
+        }
+      </div>
+    </details>`;
 }
 
 function renderClosureBox(summary) {
@@ -339,7 +372,7 @@ function renderIsRows() {
       (row, i) => `
     <div class="is-row">
       <input type="text" class="is-point" data-i="${i}" placeholder="Tên điểm IS" value="${esc(row.point)}" />
-      <input type="number" inputmode="decimal" class="is-reading" data-i="${i}" placeholder="Số đọc (mm)" value="${esc(row.readingMm)}" />
+      <input type="number" inputmode="decimal" step="0.0001" class="is-reading" data-i="${i}" placeholder="Số đọc (m)" value="${esc(row.readingM)}" />
       <button class="btn btn-danger" data-i="${i}" data-remove-is="1" type="button">×</button>
     </div>`
     )
@@ -352,7 +385,7 @@ function renderIsRows() {
   );
   container.querySelectorAll(".is-reading").forEach((el) =>
     el.addEventListener("input", (e) => {
-      isRows[Number(e.target.dataset.i)].readingMm = e.target.value;
+      isRows[Number(e.target.dataset.i)].readingM = e.target.value;
       updateLivePreview(Number(document.body.dataset.runningHeight || 0));
     })
   );
@@ -380,11 +413,11 @@ function updateLivePreview(runningHeightBefore) {
 
   let html = "";
   if (bsOk && fsOk) {
-    const dh = (bs - fs) / 1000;
+    const dh = bs - fs;
     const newHeight = runningHeightBefore + dh;
     html = `Δh trạm = ${dh >= 0 ? "+" : ""}${dh.toFixed(4)} m <span class="unit">→ H tương đối điểm cuối: ${newHeight.toFixed(4)} m</span>`;
   } else if (bsOk) {
-    const hi = runningHeightBefore + bs / 1000;
+    const hi = runningHeightBefore + bs;
     html = `HI tương đối = ${hi.toFixed(4)} m <span class="unit">(chưa nhập FS)</span>`;
   } else {
     html = `— <span class="unit">nhập BS và FS để xem chênh cao</span>`;
@@ -404,14 +437,14 @@ async function saveStation(lineId, runningHeightBefore) {
     return;
   }
   const cleanIs = isRows
-    .filter((r) => r.point.trim() !== "" && r.readingMm !== "")
-    .map((r) => ({ point: r.point.trim(), readingMm: Number(r.readingMm) }));
+    .filter((r) => r.point.trim() !== "" && r.readingM !== "")
+    .map((r) => ({ point: r.point.trim(), readingM: Number(r.readingM) }));
 
   await db.addStation(lineId, {
     bsPoint,
-    bsReadingMm: bsReading,
+    bsReadingM: bsReading,
     fsPoint,
-    fsReadingMm: fsReading,
+    fsReadingM: fsReading,
     isList: cleanIs,
     note,
   });

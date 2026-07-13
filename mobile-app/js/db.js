@@ -179,9 +179,9 @@ export async function addStation(lineId, station) {
     lineId,
     orderIndex,
     bsPoint: station.bsPoint,
-    bsReadingMm: station.bsReadingMm,
+    bsReadingM: station.bsReadingM,
     fsPoint: station.fsPoint,
-    fsReadingMm: station.fsReadingMm,
+    fsReadingM: station.fsReadingM,
     isList: station.isList || [],
     note: station.note || "",
     createdAt: Date.now(),
@@ -206,7 +206,7 @@ export async function deleteStation(id) {
 // ---- Tổng hợp tuyến ----
 
 export function stationDhM(station) {
-  return (station.bsReadingMm - station.fsReadingMm) / 1000;
+  return station.bsReadingM - station.fsReadingM;
 }
 
 export async function lineSummary(lineId) {
